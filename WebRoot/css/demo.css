@@ -1,0 +1,16 @@
+#container{
+	width: 500px;
+	min-height: 200px;
+	margin: 5px 0;
+	padding: 5px 5px 0 0;
+	border: 1px dashed #CCCCCC;
+}
+.submit{
+	width: 84px;
+	height: 30px;
+	color: #000000;
+	border: none;
+	border-radius: 3px;
+	background: #CCCCCC;
+	cursor: pointer;
+}

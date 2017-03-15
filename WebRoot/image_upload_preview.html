@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>图片预览，ajax上传</title>
+		<link type="text/css" rel="stylesheet" href="css/demo.css"/>
+		<!-- 引入主css -->
+		<link type="text/css" rel="stylesheet" href="css/image.css"/>
+		<!-- 引入js -->
+		<script type="text/javascript" src="js/image.upload.js"></script>
+	</head>
+	<body>
+		<h3>图片预览上传</h3>
+		<form id="my_form" action="http://localhost:8080/imageupload/upload">
+			<p>
+				<input type="text" name="text" value="这里是普通文本内容" />
+			</p>
+			<div>图片预览区域：</div>
+			<div id="container"></div>
+			<!--
+            	定义一个html结构如下
+            -->
+			<div class="imageuploader-container">
+				<span class="select-btn">选择图片</span>
+				<input type="file" id="select"/>
+			</div>
+			<p>
+				<input type="submit" value="上传" class="submit"/>
+			</p>
+		</form>
+		<!--<div class="preview">
+			<img src="images/img.png" width="150" height="150" />
+			<div class="preview-option"></div>
+			<span class="preview-delete"></span>
+		</div>
+		<div class="preview">
+			<img src="images/img.png" width="150" height="150" />
+			<div class="preview-option"></div>
+			<span class="preview-delete"></span>
+		</div>-->
+	</body>
+	<script type="text/javascript">
+		//构造ImageUpload。my_form为formid
+		var imageUpload = new ImageUpload("my_form", {
+			container: "container",  //显示图片容器的id
+			selectId: "select",  //用于选择图片file框的id
+			accept: "image/*",  //接受图片的类型
+			previewSize: {width:150, height:150},  //图片预览大小。默认值：150,150
+			//上传前回调
+			beforeUpload: function(){
+				alert("before upload");
+				if(!imageUpload.imageSelected){  //判断是否选择图片
+					alert("picture is not selected");
+					return false;  //阻止发送ajax;
+				}
+			},
+			//服务器响应成功回调
+			success: function(data){
+				var result = JSON.parse(data);
+				console.log(result);
+			},
+			//上传失败回调
+			failure: function(){
+				alert("upload failure");
+			}
+		});
+		
+	</script>
+</html>

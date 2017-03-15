@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>多张图片压缩，上传</title>
+		<link type="text/css" rel="stylesheet" href="css/demo.css"/>
+		<!-- 引入主css -->
+		<link type="text/css" rel="stylesheet" href="css/image.css"/>
+		<!-- 引入js -->
+		<script type="text/javascript" src="js/image.upload.js"></script>
+	</head>
+	<body>
+		<h3>多张图片压缩上传</h3>
+		<form id="my_form" action="http://localhost:8080/imageupload/upload">
+			<p>
+				<label for="name">username:</label>
+				<input type="text" name="name" id="name"/>
+			</p>
+			<p>
+				<label>sex:</label>
+				<input type="radio" name="sex" value="1"/>male
+				<input type="radio" name="sex" value="2"/>female
+			</p>
+			<p>
+				<label>loves:</label>
+				<input type="checkbox" name="love" value="apple"/>apple
+				<input type="checkbox" name="love" value="pear"/>pear
+				<input type="checkbox" name="love" value="orange"/>orange
+			</p>
+			<p>
+				<label>profession:</label>
+				<select name="profession">
+					<option value="java">java</option>
+					<option value="javascript">javascript</option>
+					<option value="html5">html5</option>
+				</select>
+			</p>
+			<div>
+				<label>images:</label>
+				<div id="container"></div>
+				<!--
+                	定义一个html结构如下
+                -->
+				<div class="imageuploader-container">
+					<span class="select-btn">选择图片</span>
+					<input type="file" id="select"/>
+				</div>
+			</div>
+			<p>
+				<input type="submit" value="上传" class="submit"/>
+			</p>
+			
+		</form>
+	</body>
+	<script type="text/javascript">
+		var imageUpload = new ImageUpload("my_form", {
+			container: "container",  //显示图片容器的id
+			selectId: "select",  //用于选择图片file框的id
+			accept: "image/*",  //接受图片的类型
+			resize: true,  //是否进行压缩
+			resizeType: "quality",  //压缩类型。可选值size：尺寸压缩，quality：质量压缩
+			quality: 0.5,  //压缩质量。可选值0 ~ 1
+			multipart: true,  //开启多文件上传
+			multipartCount: 9,  //设置文件的最大选择数量。默认为9张
+			//上传前回调
+			beforeUpload: function(){
+				alert("before upload");
+				if(!imageUpload.imageSelected){  //判断是否选择图片
+					alert("picture is not selected");
+					return false;  //阻止发送ajax;
+				}
+				//imageUpload.imageArray;  //返回已选图片列表
+			},
+			//服务器响应成功回调
+			success: function(data){
+				var result = JSON.parse(data);
+				console.log(result);
+			},
+			//上传失败回调
+			failure: function(){
+				alert("upload failure");
+			}
+		});
+	</script>
+</html>
